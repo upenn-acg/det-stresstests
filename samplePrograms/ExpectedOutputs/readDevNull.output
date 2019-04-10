@@ -1,0 +1,3 @@
+tried to write 12 bytes and sent 12
+fread said EOF
+tried to read 12 bytes and received 0
