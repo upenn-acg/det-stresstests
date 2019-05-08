@@ -160,7 +160,9 @@ child was killed by signal N. """
         self.cancelTimeout()
 
         assert self.subprocess.poll() is not None
-        return self.subprocess.poll()
+        val = self.subprocess.poll()
+        print("Return Value {}".format(val))
+        return val
 
 
     def kill(self, deathsig=signal.SIGKILL):

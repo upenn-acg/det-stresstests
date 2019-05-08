@@ -1,5 +1,6 @@
 # binaries that are simple to build (1 source file, same name as binary)
-SIMPLE_ROOTS=simpleFork inverseFork nestedFork vfork clock_gettime getpid uname pipe getRandom waitOnChild fchownat forkAndPipe helloWorld 2writers1reader fuse-single-read fuse-single-write open openat creat  sigsegv sigill sigabrt kill tgkill alarm-handler alarm-nohandler alarm-ignore selectWithoutTimeout selectWithTimeout getdents getdents64 pollWithoutTimeout pollWithPositiveTimeout pollWithNegativeTimeout rdtsc rdtscp nanosleep nanosleep-par alarm-resethand readDevRandom readDevRandomMultiple readDevUrandom exec-mkstemp complex_mkdirat_dirfd mkdir mkdirat_fdcwd mknod mknod_fullpath open_already_exists openat_already_exists simpleCreat simple_mkdirat_dirfd symlink symlinkat vdso-funcs multithreaded multipleThreads processAndThread processThreadProcess processThreadThread pthreadJoin pthreadNoJoin ptpThreadJoin ptpThreadNoJoin twoPthreadsJoin twoPthreadsNoJoin tenThreadJoin tenThreadNoJoin exitgroup exitgroupMainProcess # execveMainThread execveThreads open_tmpfile deadlockingPipe
+SIMPLE_ROOTS=multithreaded multipleThreads processAndThread processThreadProcess processThreadThread pthreadJoin pthreadNoJoin ptpThreadJoin ptpThreadNoJoin twoPthreadsJoin twoPthreadsNoJoin tenThreadJoin tenThreadNoJoin exitgroup exitgroupMainProcess # execveMainThread execveThreads open_tmpfile deadlockingPipe
+# simpleFork inverseFork nestedFork vfork clock_gettime getpid uname pipe getRandom waitOnChild fchownat forkAndPipe helloWorld 2writers1reader fuse-single-read fuse-single-write open openat creat  sigsegv sigill sigabrt kill tgkill alarm-handler alarm-nohandler alarm-ignore selectWithoutTimeout selectWithTimeout getdents getdents64 pollWithoutTimeout pollWithPositiveTimeout pollWithNegativeTimeout rdtsc rdtscp nanosleep nanosleep-par alarm-resethand readDevRandom readDevRandomMultiple readDevUrandom exec-mkstemp complex_mkdirat_dirfd mkdir mkdirat_fdcwd mknod mknod_fullpath open_already_exists openat_already_exists simpleCreat simple_mkdirat_dirfd symlink symlinkat vdso-funcs
 
 ifndef DETTRACE_NO_CPUID_INTERCEPTION
 SIMPLE_ROOTS := $(SIMPLE_ROOTS) cpuid
@@ -8,7 +9,7 @@ endif
 SIMPLE_BINARIES= $(addsuffix .bin,$(SIMPLE_ROOTS))
 
 # binaries with parameterized builds
-PARAM_ROOTS= pipe-pWcR pipe-cWpR pipe-pcWpR pipe-pWpcR pipe-cWpcR pipe-pcWpcR setitimer-real setitimer-virtual setitimer-prof getitimer-real getitimer-virtual getitimer-prof # mq
+ # PARAM_ROOTS= pipe-pWcR pipe-cWpR pipe-pcWpR pipe-pWpcR pipe-cWpcR pipe-pcWpcR setitimer-real setitimer-virtual setitimer-prof getitimer-real getitimer-virtual getitimer-prof # mq
 PARAM_BINARIES= $(addsuffix .bin,$(PARAM_ROOTS))
 
 # built-in Linux utilities, nothing to build
@@ -74,8 +75,8 @@ setup:
 # this is used for programs that don't take any arguments or need fancy setup/teardown
 %.ok: %.bin setup
 	echo "   Testing $(basename $<)..."
-	python3 timeout.py 5s $(DETTRACE) ./$< #> ActualOutputs/$(basename $<).output
-	# $(DIFF_CMD) ActualOutputs/$(basename $<).output ExpectedOutputs/$(basename $<).output
+	python3 timeout.py 5s $(DETTRACE) ./$< 2>&1 #> ActualOutputs/$(basename $<).output
+# $(DIFF_CMD) ActualOutputs/$(basename $<).output ExpectedOutputs/$(basename $<).output
 
 # SHELL_SCRIPTS tests:
 %.ok: %.sh setup
