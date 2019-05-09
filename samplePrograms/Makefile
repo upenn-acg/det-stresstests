@@ -74,7 +74,7 @@ setup:
 # this is used for programs that don't take any arguments or need fancy setup/teardown
 %.ok: %.bin setup
 	echo "   Testing $(basename $<)..."
-	python3 timeout.py 5s $(DETTRACE) ./$< #> ActualOutputs/$(basename $<).output
+	python3 timeout.py 20s $(DETTRACE) ./$< #> ActualOutputs/$(basename $<).output
 	# $(DIFF_CMD) ActualOutputs/$(basename $<).output ExpectedOutputs/$(basename $<).output
 
 # SHELL_SCRIPTS tests:
