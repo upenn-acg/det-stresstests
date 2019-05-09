@@ -146,7 +146,7 @@ child was killed by signal N. """
         try:
             self.subprocess.wait()
         except OSError as e:
-            print("Exception thrown (timed out?): {}".format(e))
+            print("timeout.py Exception thrown (timed out?): {}".format(e))
             # If the child times out, the wait() syscall can get
             # interrupted by the SIGALRM. We should then only need to
             # wait() once more for the child to actually exit.
@@ -161,7 +161,7 @@ child was killed by signal N. """
 
         assert self.subprocess.poll() is not None
         val = self.subprocess.poll()
-        print("Return Value {}".format(val))
+        print("timeout.py Return Value {}".format(val))
         return val
 
 
