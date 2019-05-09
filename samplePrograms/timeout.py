@@ -62,7 +62,7 @@ childProcessGroup : int : if 0 (default), put child process into its own process
             assert isinstance( timeout, int )
             assert timeout > 0
         self.timeout = timeout
-        
+
         assert isinstance( timeoutSignal, int )
         self.timeoutSignal = timeoutSignal
 
@@ -74,7 +74,7 @@ childProcessGroup : int : if 0 (default), put child process into its own process
         else:
             assert isinstance( childProcessGroup, int )
             self.preExecFun = (lambda : os.setpgid(0,childProcessGroup))
-                
+
 
     def run( self, 
              stdin=None, stdout=None, stderr=None, 
@@ -146,11 +146,11 @@ child was killed by signal N. """
         try:
             self.subprocess.wait()
         except OSError as e:
-            
+            print("Exception thrown (timed out?): {}".format(e))
             # If the child times out, the wait() syscall can get
             # interrupted by the SIGALRM. We should then only need to
             # wait() once more for the child to actually exit.
-            
+
             if e.errno == errno.EINTR:
                 self.subprocess.wait()
             else:
